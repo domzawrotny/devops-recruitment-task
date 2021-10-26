@@ -21,4 +21,7 @@ spec:
         - containerPort: 3000
         env:
         - name: MONGO_DB_URL
-          value: 'mongodb://root:tough2guess@localhost:27017/test'
+          valueFrom: 
+            secretKeyRef:
+              name: mongodb-secret
+              key: mongodb-url
