@@ -24,15 +24,15 @@ spec:
         - name: MONGO_INITDB_ROOT_USERNAME
           valueFrom: 
             configMapKeyRef:
-              name: mongodb-configmap
-              key: mongodb-username
+              name: mongo-db-configmap
+              key: mongo-db-username
         - name: MONGO_INITDB_ROOT_PASSWORD 
           valueFrom: 
             secretKeyRef:
-              name: mongodb-secrets
-              key: mongodb-password
+              name: mongo-db-secrets
+              key: mongo-db-password
         - name: MONGO_INITDB_DATABASE
           valueFrom:   
             configMapKeyRef:
-              name: mongodb-configmap
-              key: mongodb-initial-db
+              name: mongo-db-configmap
+              key: mongo-db-initial-db

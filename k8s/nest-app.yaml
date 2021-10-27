@@ -25,7 +25,7 @@ spec:
           valueFrom: 
             secretKeyRef:
               name: nest-app-secrets
-              key: mongodb-url
+              key: mongo-db-url
 ---
 apiVersion: v1
 kind: Service
