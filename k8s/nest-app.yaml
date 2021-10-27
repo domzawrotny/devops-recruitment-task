@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nest-app-container
-        image: dominikzawrotny/kaholo-devops-test:v0.2
+        image: dominikzawrotny/nest-app:v1.0
         ports:
         - containerPort: 3000
         env:

@@ -5,7 +5,7 @@ FROM node:latest
 
 WORKDIR /usr/src/app
 
-COPY app/ .
+COPY . .
 RUN npm install 
 
 EXPOSE 3000
