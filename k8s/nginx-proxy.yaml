@@ -2,10 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-proxy-deployment
+  namespace: nginx-proxy
   labels:
     app: nginx-proxy
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: nginx-proxy
@@ -16,6 +17,27 @@ spec:
     spec:
       containers:
       - name: nginx-proxy-container
-        image: nginx:latest
+        image: dominikzawrotny/nginx-proxy:v0.2
         ports:
         - containerPort: 8080
+        env:
+        - name: NEST_APP_SERVICE
+          valueFrom:
+            refConfigMap:
+              name: nginx-proxy-configmap
+              key: nest-app-service-url
+        - name: NEST_APP_URL
+          value: "http://$(NEST_APP_SERVICE):3000"
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: nginx-proxy-service
+  namespace: nginx-proxy
+spec:
+  selector:
+    app: nginx-proxy
+  ports:
+    - protocol: TCP
+      port: 8080
+      targerPort: 8080

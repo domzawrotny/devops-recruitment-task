@@ -2,10 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nest-deployment
+  namespace: nest-app
   labels:
     app: nest-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: nest-app
@@ -23,5 +24,17 @@ spec:
         - name: MONGO_DB_URL
           valueFrom: 
             secretKeyRef:
-              name: mongodb-secret
+              name: nest-app-secrets
               key: mongodb-url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nest-app-svc
+  namespace: nest-app
+spec:
+  selector:
+    app: nest-app
+  ports:
+  - port: 3000
+    targetPort: 3000
