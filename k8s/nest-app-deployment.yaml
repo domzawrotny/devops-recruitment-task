@@ -18,8 +18,6 @@ spec:
       containers:
       - name: nest-app-container
         image: dominikzawrotny/nest-app:v1.0
-      # - name: nest-app-container
-      #   image: nginx:latest
         ports:
         - containerPort: 3000
         env:
@@ -28,5 +26,3 @@ spec:
             secretKeyRef:
               name: nest-app-secrets
               key: mongo-db-url
-        # command: [ "/bin/bash", "-c", "--" ]
-        # args: [ "while true; do sleep 30; done;" ]
