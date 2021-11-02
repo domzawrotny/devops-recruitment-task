@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "chart-mongo-db.fullname" . }}-deployment
+  labels:
+    {{- include "chart-mongo-db.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "chart-mongo-db.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:t
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "chart-mongo-db.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.mongoDb.containerPort }}
+          env:
+          - name: MONGO_INITDB_ROOT_USERNAME
+            valueFrom: 
+              configMapKeyRef:
+                name: {{ include "chart-mongo-db.fullname" . }}-configmap
+                key: mongo-db-username
+          - name: MONGO_INITDB_ROOT_PASSWORD 
+            valueFrom: 
+              secretKeyRef:
+                name: {{ include "chart-mongo-db.fullname" . }}-secrets
+                key: mongo-db-password
+          - name: MONGO_INITDB_DATABASE
+            valueFrom:   
+              configMapKeyRef:
+                name: {{ include "chart-mongo-db.fullname" . }}-configmap
+                key: mongo-db-initial-db

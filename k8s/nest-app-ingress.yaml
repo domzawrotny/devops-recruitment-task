@@ -5,10 +5,10 @@ metadata:
   namespace: nest-app
 spec:
   rules:
-  - host: "foo.bar.com"
+  - host: my-app.local
     http:
       paths:
-      - path: /
+      - path: /cats
         pathType: Prefix
         backend:
           service:
