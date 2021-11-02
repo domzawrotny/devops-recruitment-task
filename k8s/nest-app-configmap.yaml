@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nest-app-configmap
+  namespace: nest-app
+data:
+  mongo-db-url: 'mongodb://root:tough2guess@mongo-db-svc.mongo-db:27017'
